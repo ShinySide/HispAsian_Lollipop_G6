@@ -26,7 +26,7 @@ unsigned long int_sqrt(unsigned long x)
 		b = y + m;
 		y >>= 1;
 
-	if (x >= b) {
+		if (x >= b) {
 			x -= b;
 			y += m;
 		}
