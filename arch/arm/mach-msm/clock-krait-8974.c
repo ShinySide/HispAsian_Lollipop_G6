@@ -21,6 +21,7 @@
 #include <linux/regulator/consumer.h>
 #include <linux/of.h>
 #include <linux/cpumask.h>
+#include <linux/cpufreq.h>
 
 #include <asm/cputype.h>
 
@@ -30,6 +31,9 @@
 #include <mach/clk.h>
 #include "clock-krait.h"
 #include "clock.h"
+
+unsigned int orig_drv[FREQ_STEPS];
+static bool capture_orig = false;
 
 #ifdef CONFIG_PVS_LEVEL_INTERFACE
 int pvs_level = -1;
@@ -604,10 +608,97 @@ static void krait_update_uv(int *uv, int num, int boost_uv)
 	}
 }
 
+<<<<<<< HEAD
 static char table_name[] = "qcom,speedXX-pvsXX-bin-vXX";
 module_param_string(table_name, table_name, sizeof(table_name), S_IRUGO);
 static unsigned int pvs_config_ver;
 module_param(pvs_config_ver, uint, S_IRUGO);
+=======
+void get_stock_table(void)
+{
+	if (!capture_orig)
+	{
+		int i;
+		int num_levels = cpu_clk[0]->vdd_class->num_levels;
+		for (i = num_levels-1; i > 0; i--)
+			orig_drv[i] = cpu_clk[0]->vdd_class->vdd_uv[i];
+		capture_orig = true;
+	}
+}
+
+ssize_t show_UV_mV_table(struct cpufreq_policy *policy, char *buf)
+{
+	int i, freq, len = 0;
+	/* use only master core 0 */
+	int num_levels = cpu_clk[0]->vdd_class->num_levels;
+
+	/* sanity checks */
+	if (num_levels < 0)
+		return -EINVAL;
+
+	if (!buf)
+		return -EINVAL;
+
+	/* format UV_mv table */
+	for (i = num_levels-1; i > 0; i--)
+	{
+		freq = cpu_clk[0]->fmax[i] / 1000;
+		len += sprintf(buf + len, "%dmhz: %u mV\n", freq / 1000,
+			       cpu_clk[0]->vdd_class->vdd_uv[i] / 1000);
+	}
+	return len;
+}
+
+ssize_t show_UV_mV_table_stock(struct cpufreq_policy *policy, char *buf)
+{
+	int i, freq, len = 0;
+	/* use only master core 0 */
+	int num_levels = cpu_clk[0]->vdd_class->num_levels;
+	get_stock_table();
+	
+	/* sanity checks */
+	if (num_levels < 0)
+		return -EINVAL;
+
+	if (!buf)
+		return -EINVAL;
+
+	/* format UV_mv table */
+	for (i = num_levels-1; i > 0; i--)
+	{
+		freq = cpu_clk[0]->fmax[i] / 1000;
+		len += sprintf(buf + len, "%dmhz: %u mV\n", freq / 1000,
+			       orig_drv[i] / 1000);
+	}
+	return len;
+}
+
+ssize_t store_UV_mV_table(struct cpufreq_policy *policy, char *buf,
+				size_t count)
+{
+	int i, j, offset;
+	unsigned int val;
+	int num_levels = cpu_clk[0]->vdd_class->num_levels;
+
+	get_stock_table();
+	
+	if (num_levels < 0)
+		return -1;
+
+	for (i = num_levels-1; i > 0; i--)
+	{
+		if (sscanf(buf, " %d%n", &val, &offset) == 1)
+		{
+			for (j = 0; j < NR_CPUS; j++)
+				cpu_clk[j]->vdd_class->vdd_uv[i] = val * 1000;
+		}
+		else
+			break;
+		buf += offset;
+	}
+	return count;
+}
+>>>>>>> 770496b... Add voltage control and adjust min-max voltage structs
 
 static int clock_krait_8974_driver_probe(struct platform_device *pdev)
 {
