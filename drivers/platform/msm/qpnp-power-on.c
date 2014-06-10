@@ -10,6 +10,7 @@
  * GNU General Public License for more details.
  */
 
+#include <linux/cpufreq_kt.h>
 #include <linux/module.h>
 #include <linux/init.h>
 #include <linux/kernel.h>
@@ -453,6 +454,12 @@ qpnp_pon_input_dispatch(struct qpnp_pon *pon, u32 pon_type)
 	input_report_key(pon->pon_input, cfg->key_code,
 					(pon_rt_sts & pon_rt_bit));
 	input_sync(pon->pon_input);
+	
+	if (pon->powerkey_state == 0)
+	{
+		pr_alert("KT_RELAY_CALL FROM POWER KEY\n");
+		gkt_boost_cpu_call(true, true);
+	}	
 
 #ifdef CONFIG_SEC_PATEK_PROJECT
 	if((cfg->key_code == KEY_END) && (pon_rt_sts & pon_rt_bit)){

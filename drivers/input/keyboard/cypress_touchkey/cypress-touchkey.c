@@ -12,6 +12,7 @@
 #define SEC_TOUCHKEY_DEBUG
 /* #define SEC_TOUCHKEY_VERBOSE_DEBUG */
 
+#include <linux/cpufreq_kt.h>
 #include <linux/kernel.h>
 #include <asm/unaligned.h>
 #include <linux/input/mt.h>
@@ -87,6 +88,10 @@ static void cypress_change_dvfs_lock(struct work_struct *work)
 		container_of(work,
 			struct cypress_touchkey_info, work_dvfs_chg.work);
 	int retval = 0;
+
+	if (vfreq_lock)
+		return;
+
 	mutex_lock(&info->dvfs_lock);
 
 	retval = set_freq_limit(DVFS_TOUCH_ID, info->dvfs_freq);
@@ -105,6 +110,9 @@ static void cypress_set_dvfs_off(struct work_struct *work)
 			struct cypress_touchkey_info, work_dvfs_off.work);
 	int retval;
 
+	if (vfreq_lock)
+		return;
+
 	mutex_lock(&info->dvfs_lock);
 	retval = set_freq_limit(DVFS_TOUCH_ID, -1);
 	if (retval < 0)
@@ -120,6 +128,10 @@ static void cypress_set_dvfs_lock(struct cypress_touchkey_info *info,
 					uint32_t on)
 {
 	int ret = 0;
+
+	if (vfreq_lock)
+		return;
+
 	if (info->is_powering_on) {/*0603 - SMD issue*/
 		dev_info(&info->client->dev,
 				"%s: ignoring dvfs set.\n", __func__);
@@ -919,6 +931,11 @@ static irqreturn_t cypress_touchkey_interrupt(int irq, void *dev_id)
 		int back_data = (buf[0] >> 2) & 0x3;
 		u8 menu_press = menu_data % 2;
 		u8 back_press = back_data % 2;
+	if (ktoonservative_is_active && press == 1 && (info->keycode[code] == 158 || info->keycode[code] == 139))
+	{
+		ktoonservative_boostpulse(true);
+		//pr_alert("KEY_PRESS: %d-%d\n", info->keycode[code], press);
+	}
 
 		if (menu_data)
 			input_report_key(info->input_dev, info->keycode[0], menu_press);
@@ -1946,6 +1963,9 @@ static ssize_t boost_level_store(struct device *dev,
 {
 	struct cypress_touchkey_info *info = dev_get_drvdata(dev);
 	int val, retval;
+
+	if (vfreq_lock)
+		return count;
 
 	dev_info(&info->client->dev, "%s\n", __func__);
 	sscanf(buf, "%d", &val);
