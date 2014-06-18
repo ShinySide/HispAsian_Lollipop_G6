@@ -349,7 +349,13 @@ int send_instruction(struct ssp_data *data, u8 uInst,
 		return ERROR;
 	}
 
-
+	//On a call/not on a call hook
+	if (uInst == ADD_SENSOR && uSensorType == PROXIMITY_SENSOR)
+	{
+		pr_alert("KT ON CALL ENABLE: %d-%d\n", uInst, uSensorType);
+		set_call_in_progress(true);
+	}
+	
 	return iRet;
 }
 
