@@ -2248,7 +2248,7 @@ struct unix_iter_state {
 	struct seq_net_private p;
 };
 
-static struct sock *unix_from_bucket(struct seq_file *seq, loff_t pos)
+static struct sock *unix_from_bucket(struct seq_file *seq, loff_t *pos)
 {
 	unsigned long offset = get_offset(*pos);
 	unsigned long bucket = get_bucket(*pos);
@@ -2296,7 +2296,7 @@ static void *unix_seq_start(struct seq_file *seq, loff_t *pos)
 	__acquires(unix_table_lock)
 {
 	spin_lock(&unix_table_lock);
-	+
+
 	if (!*pos)
 		return SEQ_START_TOKEN;
 
