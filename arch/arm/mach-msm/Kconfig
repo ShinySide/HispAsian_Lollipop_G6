@@ -4945,4 +4945,10 @@ config FORCE_FAST_CHARGE
 	  A simple sysfs interface to force adapters that
 	  are detected as USB to charge as AC (1A/h) or to set
 	  custom charging currents for AC and USB.
+
+config PVS_LEVEL_INTERFACE
+	bool "Expose PVS level information in sys fs (Boeffla-Kernel)"
+	help
+	 Allow PVS level to be shown in Boeffla-Config app
+
 endif
