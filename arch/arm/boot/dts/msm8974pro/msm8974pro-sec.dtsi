@@ -1569,9 +1569,9 @@
 &msm_gpu {
 	/* Updated chip ID */
 	qcom,chipid = <0x03030002>;
-	qcom,msm-bus,num-cases = <15>;
+	qcom,msm-bus,num-cases = <18>;
 	qcom,bus-control;
-	qcom,initial-pwrlevel = <4>;
+	qcom,initial-pwrlevel = <6>;
 
 	/* Updated bus bandwidth requirements */
 	qcom,msm-bus,vectors-KBps =
@@ -1593,18 +1593,24 @@
 		<26 512 0 3680000>, <89 604 0 6224000>,
 		/* Nominal / Nominal */
 		<26 512 0 4912000>, <89 604 0 6224000>,
-		/* Turbo / Nominal */
-		<26 512 0 7464000>, <89 604 0 6224000>,
-		/* low Nominal / low Turbo */
-		<26 512 0 3680000>, <89 604 0 7398000>,
+		/* low Turbo / Nominal */
+		<26 512 0 6400000>, <89 604 0 6224000>,
 		/* Nominal / low Turbo */
 		<26 512 0 4912000>, <89 604 0 7398000>,
+		/* low Turbo / low Turbo */
+		<26 512 0 6400000>, <89 604 0 7398000>,
 		/* Turbo / low Turbo */
 		<26 512 0 7464000>, <89 604 0 7398000>,
 		/* Nominal / Turbo */
 		<26 512 0 4912000>, <89 604 0 9248000>,
 		/* Turbo / Turbo */
-		<26 512 0 7464000>, <89 604 0 9248000>;
+		<26 512 0 7464000>, <89 604 0 9248000>,
+		/* KT Turbo / low Turbo */
+		<26 512 0 8528000>, <89 604 0 9248000>,
+		/* KT Nominal / Turbo */
+		<26 512 0 6400000>, <89 604 0 10192000>,
+		/* KT Turbo / Turbo */
+		<26 512 0 8528000>, <89 604 0 10192000>;
 
        qcom,gpu-pwrlevels {
                #address-cells = <1>;
@@ -1614,41 +1620,41 @@
 
                qcom,gpu-pwrlevel@0 {
                        reg = <0>;
+                       qcom,gpu-freq = <657500000>;
+                       qcom,bus-freq = <17>;
+                       qcom,io-fraction = <20>;
+               };
+
+               qcom,gpu-pwrlevel@1 {
+                       reg = <1>;
                        qcom,gpu-freq = <578000000>;
                        qcom,bus-freq = <14>;
                        qcom,io-fraction = <33>;
                };
 
-               qcom,gpu-pwrlevel@1 {
-                       reg = <1>;
+               qcom,gpu-pwrlevel@2 {
+                       reg = <2>;
                         qcom,gpu-freq = <462400000>;
                        qcom,bus-freq = <11>;
                        qcom,io-fraction = <66>;
                };
 
-               qcom,gpu-pwrlevel@2 {
-                       reg = <2>;
+               qcom,gpu-pwrlevel@3 {
+                       reg = <3>;
                        qcom,gpu-freq = <389000000>;
                        qcom,bus-freq = <8>;
                        qcom,io-fraction = <66>;
                };
 
-               qcom,gpu-pwrlevel@3 {
-                       reg = <3>;
+               qcom,gpu-pwrlevel@4 {
+                       reg = <4>;
                        qcom,gpu-freq = <320000000>;
                        qcom,bus-freq = <5>;
                        qcom,io-fraction = <100>;
                 };
 
-               qcom,gpu-pwrlevel@4 {
-                       reg = <4>;
-                       qcom,gpu-freq = <266000000>;
-                       qcom,bus-freq = <2>;
-                       qcom,io-fraction = <100>;
-               };			   
-			   
-               qcom,gpu-pwrlevel@5 {
-                       reg = <5>;
+                qcom,gpu-pwrlevel@5 {
+                        reg = <5>;
                        qcom,gpu-freq = <200000000>;
                        qcom,bus-freq = <2>;
                        qcom,io-fraction = <100>;
@@ -1660,9 +1666,16 @@
                        qcom,bus-freq = <0>;
                        qcom,io-fraction = <0>;
                };
+
+			   /* this dummy power level 7 is implemented to make
+				  the system use power level 6; it is never actively used */
+               qcom,gpu-pwrlevel@7 {
+                       reg = <7>;
+                       qcom,gpu-freq = <27000000>;
+                       qcom,bus-freq = <0>;
+               };
        };
 };
-
 &mdss_mdp {
 	qcom,max-bandwidth-low-kbps = <2750000>;
 	qcom,vbif-settings = <0x0004 0x00000001>;
