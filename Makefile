@@ -388,6 +388,7 @@ KBUILD_CFLAGS   := -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs \
 		   -Wno-format-security \
 		   -Wno-sequence-point -Wno-unused-variable -Wno-unused-function \
 		   -fno-delete-null-pointer-checks \
+		   -Wbool-compare \
 		   $(KERNEL_FLAGS)
 
 KBUILD_AFLAGS_KERNEL :=
