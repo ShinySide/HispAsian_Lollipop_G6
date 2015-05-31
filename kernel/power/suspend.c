@@ -343,9 +343,11 @@ static int enter_state(suspend_state_t state)
 	if (state == PM_SUSPEND_FREEZE)
 		freeze_begin();
 
+#ifdef CONFIG_PM_SYNC_BEFORE_SUSPEND
 	printk(KERN_INFO "PM: Syncing filesystems ... ");
 	sys_sync();
 	printk("done.\n");
+#endif
 
 	pm_qos_add_request(&suspend_pm_qos, PM_QOS_CPU_DMA_LATENCY,
                       PM_QOS_DEFAULT_VALUE);
