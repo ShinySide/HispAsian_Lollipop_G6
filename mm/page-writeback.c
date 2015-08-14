@@ -374,10 +374,10 @@ bool zone_dirty_ok(struct zone *zone)
 	       zone_page_state(zone, NR_WRITEBACK) <= limit;
 }
 
-#if defined(CONFIG_MIN_DIRTY_THRESH_PAGES) && CONFIG_MIN_DIRTY_THRESH_PAGES > 0
-	if (!vm_dirty_bytes && dirty_total < CONFIG_MIN_DIRTY_THRESH_PAGES) 
-		dirty_total = CONFIG_MIN_DIRTY_THRESH_PAGES;
-#endif
+// #if defined(CONFIG_MIN_DIRTY_THRESH_PAGES) && CONFIG_MIN_DIRTY_THRESH_PAGES > 0
+//	if (!vm_dirty_bytes && dirty_total < CONFIG_MIN_DIRTY_THRESH_PAGES) 
+//		dirty_total = CONFIG_MIN_DIRTY_THRESH_PAGES;
+// #endif
 
 int dirty_background_ratio_handler(struct ctl_table *table, int write,
 		void __user *buffer, size_t *lenp,
