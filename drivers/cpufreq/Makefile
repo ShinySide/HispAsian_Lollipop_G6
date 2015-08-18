@@ -29,6 +29,13 @@ obj-$(CONFIG_CPU_FREQ_GOV_ZZMOOVE)      += cpufreq_zzmoove.o
 obj-$(CONFIG_CPU_FREQ_GOV_IMPULSE)	+= cpufreq_impulse.o
 obj-$(CONFIG_CPU_FREQ_GOV_ONDEMANDPLUS)	+= cpufreq_ondemandplus.o
 obj-$(CONFIG_CPU_FREQ_GOV_YANKACTIVE)	+= cpufreq_yankactive.o
+obj-$(CONFIG_CPU_FREQ_GOV_TRIPNDROID)	+= cpufreq_tripndroid.o
+obj-$(CONFIG_CPU_FREQ_GOV_LAZY)		+= cpufreq_lazy.o
+obj-$(CONFIG_CPU_FREQ_GOV_HYPER)	+= cpufreq_hyper.o
+obj-$(CONFIG_CPU_FREQ_GOV_DARKNESS)	+= cpufreq_darkness.o
+obj-$(CONFIG_CPU_FREQ_GOV_ADAPTIVE)	+= cpufreq_adaptive.o
+obj-$(CONFIG_CPU_FREQ_GOV_UBERDEMAND)	+= cpufreq_uberdemand.o
+obj-$(CONFIG_CPU_FREQ_GOV_OPTIMAX)	+= cpufreq_optimax.o
 
 
 # CPUfreq cross-arch helpers

@@ -508,6 +508,27 @@ extern struct cpufreq_governor cpufreq_gov_ondemandplus;
 #elif defined(CONFIG_CPU_FREQ_DEFAULT_GOV_YANKACTIVE)
 extern struct cpufreq_governor cpufreq_gov_yankactive;
 #define CPUFREQ_DEFAULT_GOVERNOR	(&cpufreq_gov_yankactive)
+#elif defined(CONFIG_CPU_FREQ_DEFAULT_GOV_TRIPNDROID)
+extern struct cpufreq_governor cpufreq_gov_tripndroid;
+#define CPUFREQ_DEFAULT_GOVERNOR	(&cpufreq_gov_tripndroid)
+#elif defined(CONFIG_CPU_FREQ_DEFAULT_GOV_UBERDEMAND)
+extern struct cpufreq_governor cpufreq_gov_uberdemand;
+#define CPUFREQ_DEFAULT_GOVERNOR	(&cpufreq_gov_uberdemand)
+#elif defined(CONFIG_CPU_FREQ_DEFAULT_GOV_ADAPTIVE)
+extern struct cpufreq_governor cpufreq_gov_adaptive;
+#define CPUFREQ_DEFAULT_GOVERNOR	(&cpufreq_gov_adaptive)
+#elif defined(CONFIG_CPU_FREQ_DEFAULT_GOV_HYPER)
+extern struct cpufreq_governor cpufreq_gov_hyper;
+#define CPUFREQ_DEFAULT_GOVERNOR	(&cpufreq_gov_hyper)
+#elif defined(CONFIG_CPU_FREQ_DEFAULT_GOV_LAZY)
+extern struct cpufreq_governor cpufreq_gov_lazy;
+#define CPUFREQ_DEFAULT_GOVERNOR  (&cpufreq_gov_lazy)
+#elif defined(CONFIG_CPU_FREQ_DEFAULT_GOV_DARKNESS)
+extern struct cpufreq_governor cpufreq_gov_darkness;
+#define CPUFREQ_DEFAULT_GOVERNOR	(&cpufreq_gov_darkness)
+#elif defined(CONFIG_CPU_FREQ_DEFAULT_GOV_OPTIMAX)
+extern struct cpufreq_governor cpufreq_gov_optimax;
+#define CPUFREQ_DEFAULT_GOVERNOR        (&cpufreq_gov_optimax)
 #endif
 
 
