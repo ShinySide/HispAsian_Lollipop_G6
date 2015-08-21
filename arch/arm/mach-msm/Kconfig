@@ -4796,7 +4796,7 @@ config WALL_CLK_SYSFS
 	 wall clock simulation and read the current SFN.
 
 config HAS_MACH_MEMUTILS
-	default n
+	default y
 	bool "Motorola MSM memcpy enhancements"
 	help
 	Faster memcpy performance for Krait
