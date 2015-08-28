@@ -31,8 +31,6 @@
 extern int GLOBALKT_MIN_FREQ_LIMIT;
 extern int GLOBALKT_MAX_FREQ_LIMIT;
 
-extern unsigned int kthermal_limit;
-
 
 /*********************************************************************
  *                     CPUFREQ NOTIFIER INTERFACE                    *
