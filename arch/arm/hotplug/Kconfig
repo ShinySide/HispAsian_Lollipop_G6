@@ -4,7 +4,6 @@ config INTELLI_PLUG
         help
           Generic Intelli-plug cpu hotplug driver for ARM SOCs
 
-
 config ZEN_DECISION
 	bool "Zen Decision: MSM Userspace Handler"
 	depends on SMP && FB
@@ -46,3 +45,11 @@ config MSM_SLEEPER
 	default n
 	help
 	  CPU hotplug driver
+
+config BRICKED_HOTPLUG
+	bool "Enable kernel based mpdecision"
+	depends on MSM_RUN_QUEUE_STATS
+	default n
+	help
+	 This enables kernel based multi core control.
+	 (up/down hotplug based on load)
